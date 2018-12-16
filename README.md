@@ -1,25 +1,27 @@
 # SocarProject
 
-# SocarProject
 
-[x] Create Cars Tab
 
-[x] Booking Screen
+- Create Cars Tab
 
-[x] Show Active and in-active Reservations List
+- Booking Screen
 
-[x] Used Redux for storing the states
+- Show Active and in-active Reservations List
+
+- Used Redux for storing the states
 
 Added Screenshots for reference 
 
-Car Listing (img/car_listing.png)
+![View Car Listing ](img/car_listing.png "Car Listing")
 
-Car Detial (img/details_page.png)
+![Individual car detials ](img/details_page.png "Car Details") 
 
-Upon Selecting "Confirm Booking" (img/confirm_booking.png)
+![Confirm Booking Loading Screen](img/confirm_booking.png "Confirm Booking")
 
-Updated Car Lists (img/updated_car_listing.png)
+![Updated Car Listing View](img/updated_car_listing.png "Updated Car Lists")
+ 
+![All Reservation List View](img/reservation_list.png "Reservation List")
 
-Reservation List (showing all) (img/reservation_list.png)
+![Active Reservation List View](img/active_reservation_list.png "Active Reservation List")
 
-Reservation List (showing currently active) (img/active_reservation_list.png)
+**The reservations list is showing the wrong time for collection and returned due to the firestore timestamp, the server is synced to US.Sorry for that**
