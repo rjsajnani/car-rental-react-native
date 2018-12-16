@@ -55,9 +55,9 @@ class ReservationList extends Component {
           <Text>{Moment(item.startTime).format("DD-MMM-YYYY HH:mm")}</Text>
           </View>
         <View style={[styles.borderLeft,styles.wrapperColumn,styles.col50]}>
-          <Text> {!item.active ? 'Ride in progress' : 'Returned'}</Text> 
+          <Text> {item.active ? 'Ride in progress' : 'Returned'}</Text> 
           <Text>
-            {item.active ? Moment(item.endTime).format("DD-MMM-YYYY HH:mm") : ''}
+            {!item.active ? Moment(item.endTime).format("DD-MMM-YYYY HH:mm") : ''}
           </Text>
         </View>      
       </View>  

@@ -92,12 +92,12 @@ class CarDetailScreen extends Component {
           <List.Section title="Rental Details">
             <List.Item
               style={styles.listItem}
-              title={"Pickup By" + Moment(carDetails.startTime).format("DD-MM-YYYY HH:mm")}
+              title={"Pickup By: " + Moment(carDetails.startTime).format("DD-MM-YYYY HH:mm")}
               left={() => <List.Icon icon="flag" color={'green'} />}
             />
             <List.Item
               style={styles.listItem}
-              title={"Return By" + Moment(carDetails.endTime).format("DD-MM-YYYY HH:mm")}
+              title={"Return By: " + Moment(carDetails.endTime).format("DD-MM-YYYY HH:mm")}
               left={() => <List.Icon icon="flag" color={'red'}/>}
             />
             <List.Item
