@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
 import CarsScreen from './App/Components/Cars';
 import BookingScreen from './App/Components/Cars/Booking'
@@ -27,23 +27,20 @@ CarsStack.navigationOptions = ({ navigation }) => {
 
 export default createBottomTabNavigator(
   {
-    Cars:  CarsStack,
+    Cars:  {
+      screen: CarsStack,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'car'}
+            size={26}
+            style={{ color: tintColor }}
+          />
+        ),
+      },
+    },
   },
   {
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if(routeName === 'Cars'){
-          iconName = `car`;
-        }
-
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
-      },
-    }),
-    initialRouteName:'Cars',
     tabBarOptions: {
       activeTintColor: Color.primary,
       inactiveTintColor: 'gray',
