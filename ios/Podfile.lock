@@ -91,10 +91,24 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - React (0.57.7):
+    - React/Core (= 0.57.7)
+  - React/Core (0.57.7):
+    - yoga (= 0.57.7.React)
+  - RNFirebase (5.1.1):
+    - Firebase/Core
+    - React
+  - RNVectorIcons (6.1.0):
+    - React
+  - yoga (0.57.7.React)
 
 DEPENDENCIES:
   - Firebase/Core
   - Firebase/Firestore
+  - React (from `../node_modules/react-native`)
+  - RNFirebase (from `../node_modules/react-native-firebase/ios`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -113,6 +127,16 @@ SPEC REPOS:
     - nanopb
     - Protobuf
 
+EXTERNAL SOURCES:
+  React:
+    :path: "../node_modules/react-native"
+  RNFirebase:
+    :path: "../node_modules/react-native-firebase/ios"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   Firebase: 963d5685fae888a56d6d4d9cfce6b9c976958798
@@ -128,7 +152,11 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
+  RNFirebase: 2b25fd2e60269f26bb0a76c71dcc942b35a77df0
+  RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
+  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 61332d60f3ab5d1ad62dd48855b02f839b0007e7
+PODFILE CHECKSUM: 460614a9651ae36b8fe9c9af50c6b773d5f1275b
 
 COCOAPODS: 1.5.2

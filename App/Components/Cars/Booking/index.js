@@ -1,98 +1,117 @@
-import React, { Component } from 'react';
 import Moment from 'moment';
-import { Title, Button, Card } from 'react-native-paper';
-import { StyleSheet, ScrollView, ActivityIndicator, View, Image, Text } from 'react-native';
-import firebase from '../../../../FirebaseConfig';
-import { Color } from '../../../Style/Color';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import { 
+  Title,
+  Button,
+  Card,
+  List
+} from 'react-native-paper';
+import { 
+  StyleSheet, 
+  ScrollView,
+  ActivityIndicator, 
+  View, 
+  Image, 
+  Text 
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-class BoardDetailScreen extends Component {
-  static navigationOptions = {
-    title: 'Board Details',
+import { Color } from '../../../Style/Color';
+import {StyleDefault} from '../../../Style/Styles'
+import firebase from '../../../../FirebaseConfig';
+import { fetchCarDetails, confirmBooking } from '../../../actions'
+
+const mapStateToProps = (state) => {
+  return {
+    carDetails: state.carDetailsReducers.carDetails,
+    confirmBooking: state.confirmBookingReducers
   };
-  constructor() {
-		super();
-		this.ref = firebase.firestore().collection('reservations');
-    this.state = {
-      isLoading: true,
-      carDetails: {},
-			key: '',
-			startTime: '',
-			endTime: '',
-    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+  debugger
+  const key = props.navigation.getParam('carKey')
+  return {
+    fetchCarDetails: () => dispatch(fetchCarDetails(key)),
+    confirmBooking: (val) => dispatch(confirmBooking(val))
+  };
+}
+
+class CarDetailScreen extends Component {
+  static navigationOptions = {
+    title: 'Car Details',
+  };
+  constructor(props) {
+    super(props);
+    this.props.fetchCarDetails()
   }
-  componentDidMount() {
-    const { navigation } = this.props;
-    const ref = firebase.firestore().collection('cars').doc(navigation.getParam('carKey'));
-    ref.get().then((doc) => {
-      if (doc.exists) {
-        this.setState({
-          carDetails: doc.data(),
-					key: doc.id,
-					startTime: Moment(),
-					endTime: Moment().add(`${doc._data.rental_time}`, 'minutes'),
-          isLoading: false
-        });
-      } else {
-        console.log("No such document!");
-      }
-    });
-  }
-	saveBoard() {
-    const {key,startTime,endTime,carDetails} = this.state
-    console.log(Moment(endTime).toDate())
-		this.setState({
-			isLoading: true,
-		});
-		const updateRef = firebase.firestore().collection('cars').doc(this.state.key);
-		updateRef.update({
-      availability: !carDetails.availability,
-      endTime: Moment(endTime).toDate(),
-      nowTime: Moment(startTime).toDate(),
-		})
-		this.ref.add({
-			id: key,
-			startTime: Moment(startTime).toDate(),
-      endTime: Moment(endTime).toDate(),
+
+  bookingConfirmation() {
+    const key = this.props.navigation.getParam('carKey')
+    const carDetails = this.props.carDetails.details
+    console.log(this.props)
+    let createBooking = {
+      key: key,
+      startTime: Moment(carDetails.current_time).toDate(),
+      endTime: Moment(carDetails.endTime).toDate(),
       name: carDetails.name,
       active: true,
       location: carDetails.location,
       image_url: carDetails.image_url,
-		}).then((docRef) => {
-			this.props.navigation.goBack();
-		})
-		.catch((error) => {
-			console.error("Error adding document: ", error);
-			this.setState({
-				isLoading: false,
-			});
-		});
-	}
+      availability: carDetails.availability
+    }
+    this.props.confirmBooking(createBooking)
+      setTimeout(function () {
+        this.props.navigation.goBack();
+      }.bind(this), 1000);
+  }
 
   render() {
-    const{carDetails,startTime,endTime } = this.state 
-    if(this.state.isLoading){
-      return(
-        <View style={styles.activity}>
+    const { carDetails, confirmBooking } = this.props
+    if (confirmBooking === true || carDetails === undefined || carDetails.length <= 0) {
+      return (
+        <View style={StyleDefault.activity}>
           <ActivityIndicator size="large" color={Color.primary} />
         </View>
       )
     }
+
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:Color.white}}>
         <View style={styles.container}>
-					<Title>{carDetails.registration_no}</Title>
-					<Image
-						style={{width: 100, height: 100,}}
-          	source={{uri: carDetails.image_url}}
-        	/>
-					<Text>{Moment(startTime).format("HH:mm")}</Text>
-					<Text>{Moment(endTime).format("HH:mm")}</Text>					
-					<Button 
-						onPress={()=> this.saveBoard() }
-						mode='contained'
-					>
-					Confirm Reservation
-					</Button>
+          <Title>{carDetails.details.registration_no}</Title>
+          <Card style={{shadowOpacity: 0,}}>
+            <Card.Cover source={{ uri: carDetails.details.image_url }} style={StyleDefault.cardCover} />
+          </Card>
+          <Title>{carDetails.details.name}</Title>
+          <View style={styles.wrapperRow}>
+            <Text>Vehicle Color</Text> 
+            <Text style={[{backgroundColor:carDetails.details.color},styles.colorSelection]}> </Text>
+          </View>
+          <List.Section title="Rental Details">
+            <List.Item
+              style={styles.listItem}
+              title={"Pickup By" + Moment(carDetails.startTime).format("DD-MM-YYYY HH:mm")}
+              left={() => <List.Icon icon="flag" color={'green'} />}
+            />
+            <List.Item
+              style={styles.listItem}
+              title={"Return By" + Moment(carDetails.endTime).format("DD-MM-YYYY HH:mm")}
+              left={() => <List.Icon icon="flag" color={'red'}/>}
+            />
+            <List.Item
+              style={styles.listItem}
+              title={carDetails.details.location}
+              left={() => <List.Icon icon="map" color={'green'} />}
+            />
+          </List.Section>
+          <Button
+            onPress={() => this.bookingConfirmation()}
+            mode='contained'
+          >
+            Confirm Reservation
+          </Button>
         </View>
       </ScrollView>
     );
@@ -101,25 +120,24 @@ class BoardDetailScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 15,
   },
-  subContainer: {
-    flex: 1,
-    paddingBottom: 20,
-    borderBottomWidth: 2,
-    borderBottomColor: '#CCCCCC',
+  listItem:{
+    padding: 0,
   },
-  activity: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
+  wrapperRow:{
+    flexDirection: 'row',
+    alignItems:'center'
   },
-  detailButton: {
-    marginTop: 10
-  }
+  colorSelection:{
+    fontSize: 16,
+    color: Color.white,
+    paddingHorizontal: 10,
+    minWidth: 0,
+    borderWidth:1,
+    borderColor: Color.borderColor,
+    marginHorizontal: 10,    
+  },
 })
 
-export default BoardDetailScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(CarDetailScreen);

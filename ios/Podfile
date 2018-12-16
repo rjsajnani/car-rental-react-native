@@ -7,6 +7,9 @@ target 'CarRental' do
   
   # Pods for CarRental
   # Required by RNFirebase
+  pod 'React', :path => '../node_modules/react-native'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
 
