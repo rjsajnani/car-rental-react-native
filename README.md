@@ -1,3 +1,17 @@
+# Setup
+
+Run,
+
+    $ npm install
+    
+Go to ios directory and run,
+
+    $ cd ios && pod install && cd ..
+
+start react-native
+
+    $ react-native run-ios  --simulator="iPhone Xs"
+
 # SocarProject
 
 
