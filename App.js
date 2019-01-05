@@ -1,49 +1,20 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
-import CarsScreen from './App/Components/Cars';
-import BookingScreen from './App/Components/Cars/Booking'
-import { Color } from './App/Style/Color';
+import { createStackNavigator,createSwitchNavigator } from 'react-navigation';
 
+// import screens
+import AppStack from './App/Components/AppStack';
+import SignInScreen from './App/Components/AuthScreen/SignInScreen';
+import AuthLoadingScreen from './App/Components/AuthScreen/AuthLoadingScreen';
 
+const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
-
-const CarsStack = createStackNavigator({
-  Cars: CarsScreen,
-  Booking: BookingScreen,
-});
-
-CarsStack.navigationOptions = ({ navigation }) => {
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
-  }
-  return {
-    tabBarVisible,
-  };
-};
-
-
-export default createBottomTabNavigator(
+export default createSwitchNavigator(
   {
-    Cars:  {
-      screen: CarsStack,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Icon
-            name={'car'}
-            size={26}
-            style={{ color: tintColor }}
-          />
-        ),
-      },
-    },
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
   },
   {
-    tabBarOptions: {
-      activeTintColor: Color.primary,
-      inactiveTintColor: 'gray',
-    },
+    initialRouteName: 'AuthLoading',
   }
 );

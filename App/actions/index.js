@@ -3,8 +3,11 @@ import {
   REQUEST_CARS_LIST,
   REQUEST_CAR_DETAILS,
   REQUEST_RESERVATION_LIST,
-  CONFRIM_BOOKING
+  CONFRIM_BOOKING,
+  SAVE_TOKEN,
+  GET_TOKEN
 } from './consts'
+import { AsyncStorage } from 'react-native'
 
 import Moment from 'moment';
 
@@ -43,7 +46,6 @@ const getReservationList = (reservationList, activeList) => {
 
 //function to update the state of the car booked and also add the car to reservation list
 const confirmBooking = (values) => {
-  debugger
   return function(dispatch) {
     firebase.firestore().collection('cars').doc(values.key).update({
       availability: !values.availability,
@@ -56,6 +58,7 @@ const confirmBooking = (values) => {
       active: true,
       location: values.location,
       image_url: values.image_url,
+      token: values.token
     })
     var actionCompleteBooking = updateBooking();
     dispatch(actionCompleteBooking);
@@ -120,12 +123,12 @@ const fetchCarDetails = (carId) => {
 
 
 // toggle bewteen active and inactive 
-const watchReservationList = (val) => {
+const watchReservationList = (val,token) => {
   let activeList = val === undefined ? false : val
   const reservationList = []
   return function(dispatch) {
     if (activeList) {
-      firebase.firestore().collection("reservations").where("active", "==", true).onSnapshot(function(querySnapshot) {
+      firebase.firestore().collection("reservations").where("active", "==", true).where("token", "==", token).onSnapshot(function(querySnapshot) {
         querySnapshot.forEach((doc) => {
           const {
             endTime,
@@ -134,7 +137,8 @@ const watchReservationList = (val) => {
             active,
             image_url,
             name,
-            location
+            location,
+            token
           } = doc.data();
           reservationList.push({
             key: doc.id,
@@ -145,7 +149,8 @@ const watchReservationList = (val) => {
             imageUrl: image_url,
             active,
             endTime,
-            startTime
+            startTime,
+            token
           });
         })
         var actionGetReservationList = getReservationList(reservationList, activeList);
@@ -154,7 +159,7 @@ const watchReservationList = (val) => {
         console.log(error);
       });
     } else {
-      firebase.firestore().collection("reservations").onSnapshot(function(querySnapshot) {
+      firebase.firestore().collection("reservations").where("token", "==", token).onSnapshot(function(querySnapshot) {
         const reservationList = []
         querySnapshot.forEach((doc) => {
           const {
@@ -164,7 +169,8 @@ const watchReservationList = (val) => {
             active,
             image_url,
             name,
-            location
+            location,
+            token
           } = doc.data();
           reservationList.push({
             key: doc.id,
@@ -175,7 +181,8 @@ const watchReservationList = (val) => {
             imageUrl: image_url,
             active,
             endTime,
-            startTime
+            startTime,
+            token
           });
         })
         var actionGetReservationList = getReservationList(reservationList, activeList);
@@ -186,6 +193,45 @@ const watchReservationList = (val) => {
     }
   }
 };
+
+
+// save and get access token
+
+const saveToken = (token) => ({
+  type: SAVE_TOKEN,
+  token: token
+});
+
+const getToken = (token) => ({
+  type: GET_TOKEN,
+  token: token,
+});
+
+const error = error => ({
+  type: 'ERROR',
+  error,
+});
+
+
+const saveUserToken = (data) => dispatch =>
+  AsyncStorage.setItem('userToken', data)
+  .then((data) => {
+    dispatch(saveToken('token saved'));
+  })
+  .catch((err) => {
+    dispatch(error(err.message || 'ERROR'));
+  })
+
+const getUserToken = () => dispatch =>
+  AsyncStorage.getItem('userToken')
+  .then((data) => {
+    dispatch(getToken(data));
+  })
+  .catch((err) => {
+    dispatch(error(err.message || 'ERROR'));
+  })
+
+
 export {
   getCarsList,
   watchCarsList,
@@ -193,5 +239,7 @@ export {
   fetchCarDetails,
   watchReservationList,
   getReservationList,
-  confirmBooking
+  confirmBooking,
+  saveUserToken,
+  getUserToken,
 };
