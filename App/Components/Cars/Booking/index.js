@@ -12,31 +12,31 @@ import {
   ScrollView,
   ActivityIndicator, 
   View, 
-  Image, 
   Text 
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Color } from '../../../Style/Color';
-import {StyleDefault} from '../../../Style/Styles'
-import firebase from '../../../../FirebaseConfig';
-import { fetchCarDetails, confirmBooking } from '../../../actions'
+import {StyleDefault} from '../../../Style/Styles';
+import { fetchCarDetails, confirmBooking, getUserToken } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
+    token: state.userTokenReducers.token,
+    confirmBooking: state.confirmBookingReducers,
     carDetails: state.carDetailsReducers.carDetails,
-    confirmBooking: state.confirmBookingReducers
   };
 }
 
-const mapDispatchToProps = (dispatch, props) => {
-  debugger
+
+const mapDispatchToProps = (dispatch, props) => {  
   const key = props.navigation.getParam('carKey')
   return {
+    getUserToken: () => dispatch(getUserToken()),
     fetchCarDetails: () => dispatch(fetchCarDetails(key)),
-    confirmBooking: (val) => dispatch(confirmBooking(val))
+    confirmBooking: (val) => dispatch(confirmBooking(val)),
   };
 }
+ 
 
 class CarDetailScreen extends Component {
   static navigationOptions = {
@@ -46,11 +46,16 @@ class CarDetailScreen extends Component {
     super(props);
     this.props.fetchCarDetails()
   }
+  //get user token 
+  componentDidMount(){
+    this.props.getUserToken()
+  }
 
   bookingConfirmation() {
     const key = this.props.navigation.getParam('carKey')
     const carDetails = this.props.carDetails.details
-    console.log(this.props)
+    const token = this.props.token
+   
     let createBooking = {
       key: key,
       startTime: Moment(carDetails.current_time).toDate(),
@@ -59,8 +64,10 @@ class CarDetailScreen extends Component {
       active: true,
       location: carDetails.location,
       image_url: carDetails.image_url,
-      availability: carDetails.availability
+      availability: carDetails.availability,
+      token: token
     }
+    
     this.props.confirmBooking(createBooking)
       setTimeout(function () {
         this.props.navigation.goBack();

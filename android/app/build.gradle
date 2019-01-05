@@ -152,6 +152,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:16.0.4"
     implementation "com.google.firebase:firebase-firestore:17.0.2"
     implementation 'com.android.support:multidex:1.0.0'
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
 
 
 }

@@ -1,45 +1,49 @@
-import React,{Fragment,Component} from 'react';
+import React,{Component} from 'react';
 import { connect } from 'react-redux';
-import { Appbar } from 'react-native-paper';
 import {
   View,
-  Text,
-  SafeAreaView,
   Dimensions,
   StyleSheet
 } from 'react-native';
 import { 
   TabView, 
   TabBar, 
-  SceneMap 
 } from 'react-native-tab-view';
 
 import CarList from './CarListing';
 import {Color} from '../../Style/Color';
 import ReservationList from './ReservationsList'
-import { watchCarsList,watchReservationList } from '../../actions'
+import { watchCarsList,watchReservationList,getUserToken } from '../../actions'
 
 
 const mapStateToProps = (state) => {
   return { 
+    token: state.userTokenReducers.token,
     carsList: state.carListReducers.carsList,
+    activeList : state.reservationReducers.activeList,
     reservationList: state.reservationReducers.reservationList,
-    activeList : state.reservationReducers.activeList
   };
 }
 
 const mapDispatchToProps = (dispatch,props) => {
   return { 
+    getUserToken: () => dispatch(getUserToken()),
     watchCarsList: () => dispatch(watchCarsList()),
-    watchReservationList: (val) => dispatch(watchReservationList(val))
+    watchReservationList: (val,token) => dispatch(watchReservationList(val,token)),
   };
 }
 
 class Cars extends Component {
   constructor(props){
     super(props)
+    this.props.getUserToken()
     this.props.watchCarsList()
     this.props.watchReservationList()
+  }
+  componentDidMount(){
+    this.props.getUserToken()
+    const token = this.props.token
+    this.props.watchReservationList(false,token) 
   }
   state = {
     index: 0,
@@ -74,7 +78,8 @@ class Cars extends Component {
   };
 
   toggle(value){
-    this.props.watchReservationList(value) 
+    const token = this.props.token
+    this.props.watchReservationList(value,token) 
   }
 
   _renderScene = ({ route }) => {

@@ -12,6 +12,7 @@ target 'CarRental' do
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Messaging'
 
   target 'CarRental-tvOSTests' do
     inherit! :search_paths

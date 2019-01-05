@@ -37,7 +37,7 @@ class ReservationList extends Component {
     ]}>
       <View style={{flexDirection:'row'}}>
         <View style={styles.col55}>
-          <Card.Cover source={{ uri: item.imageUrl }} style={StyleDefault.cardCover}/>
+          <Card.Cover source={{ uri: item.imageUrl }}  style={StyleDefault.cardCover}/>
         </View>
         <View style={styles.col45}>
           <Card.Content>
