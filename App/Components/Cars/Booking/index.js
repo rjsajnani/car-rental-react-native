@@ -12,12 +12,14 @@ import {
   ScrollView,
   ActivityIndicator, 
   View, 
-  Text 
+  Text,
+  TouchableOpacity
 } from 'react-native';
 
 import { Color } from '../../../Style/Color';
 import {StyleDefault} from '../../../Style/Styles';
 import { fetchCarDetails, confirmBooking, getUserToken } from '../../../actions'
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 const mapStateToProps = (state) => {
   return {
@@ -42,6 +44,14 @@ class CarDetailScreen extends Component {
   static navigationOptions = {
     title: 'Car Details',
   };
+
+  state = {
+    startDateTimePickerVisible: false,
+    endDateTimePickerVisible: false,
+    startDateTime: '',
+    endDateTime: '',
+  };
+
   constructor(props) {
     super(props);
     this.props.fetchCarDetails()
@@ -58,8 +68,8 @@ class CarDetailScreen extends Component {
    
     let createBooking = {
       key: key,
-      startTime: Moment(carDetails.current_time).toDate(),
-      endTime: Moment(carDetails.endTime).toDate(),
+      startTime: this.state.startDateTime,
+      endTime: this.state.endDateTime,
       name: carDetails.name,
       active: true,
       location: carDetails.location,
@@ -74,8 +84,31 @@ class CarDetailScreen extends Component {
       }.bind(this), 1000);
   }
 
+  showStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: true });
+ 
+  showEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: true });
+   
+  hideStartDateTimePicker = () => this.setState({ startDateTimePickerVisible: false });
+   
+  hideEndDateTimePicker = () => this.setState({ endDateTimePickerVisible: false });
+   
+  handleStartDatePicked = (date) => {
+    this.setState({
+      startDateTime : date
+    })
+    this.hideStartDateTimePicker();
+  };
+   
+  handleEndDatePicked = (date) => {
+    this.setState({
+      endDateTime: date
+    })
+    this.hideEndDateTimePicker();
+  };
+
   render() {
     const { carDetails, confirmBooking } = this.props
+    const { startDateTime,endDateTime, startDateTimePickerVisible, endDateTimePickerVisible } = this.state
     if (confirmBooking === true || carDetails === undefined || carDetails.length <= 0) {
       return (
         <View style={StyleDefault.activity}>
@@ -91,30 +124,62 @@ class CarDetailScreen extends Component {
           <Card style={{shadowOpacity: 0,}}>
             <Card.Cover source={{ uri: carDetails.details.image_url }} style={StyleDefault.cardCover} />
           </Card>
+
           <Title>{carDetails.details.name}</Title>
           <View style={styles.wrapperRow}>
             <Text>Vehicle Color</Text> 
             <Text style={[{backgroundColor:carDetails.details.color},styles.colorSelection]}> </Text>
           </View>
+
           <List.Section title="Rental Details">
-            <List.Item
-              style={styles.listItem}
-              title={"Pickup By: " + Moment(carDetails.startTime).format("DD-MM-YYYY HH:mm")}
-              left={() => <List.Icon icon="flag" color={'green'} />}
-            />
-            <List.Item
-              style={styles.listItem}
-              title={"Return By: " + Moment(carDetails.endTime).format("DD-MM-YYYY HH:mm")}
-              left={() => <List.Icon icon="flag" color={'red'}/>}
-            />
+
+            <View style={{ flex: 1 }}>              
+              <DateTimePicker
+              isVisible={startDateTimePickerVisible}
+              onConfirm={this.handleStartDatePicked}
+              onCancel={this.hideStartDateTimePicker}
+              maximumDate={endDateTime}
+              minimumDate={new Date()}
+              minuteInterval={15}
+              mode={'datetime'}
+              />
+            </View>
+            <TouchableOpacity  onPress={this.showStartDateTimePicker}>
+              <List.Item
+                style={styles.listItem}
+                title={startDateTime === '' ? "Select Pickup Date" :"Pickup By: " +  Moment(startDateTime).format("DD-MM-YYYY HH:mm")}
+                left={() => <List.Icon icon="flag" color={'green'} />}
+              />
+            </TouchableOpacity>
+            
+            <View style={{ flex: 1 }}>
+              <DateTimePicker
+              isVisible={endDateTimePickerVisible}
+              onConfirm={this.handleEndDatePicked}
+              onCancel={this.hideEndDateTimePicker}
+              minimumDate={startDateTime}
+              minuteInterval={15}
+              mode={'datetime'}
+              />
+            </View>
+            <TouchableOpacity onPress={this.showEndDateTimePicker}>
+              <List.Item
+                style={styles.listItem}
+                title={endDateTime === '' ? "Select Return Date" : "Return By: " +  Moment(endDateTime).format("DD-MM-YYYY HH:mm")}
+                left={() => <List.Icon icon="flag" color={'red'} />}
+              />
+            </TouchableOpacity>
+            
             <List.Item
               style={styles.listItem}
               title={carDetails.details.location}
               left={() => <List.Icon icon="map" color={'green'} />}
             />
           </List.Section>
+          
           <Button
             onPress={() => this.bookingConfirmation()}
+            disabled={this.state.startDateTime === '' || this.state.endDateTime === ''} 
             mode='contained'
           >
             Confirm Reservation

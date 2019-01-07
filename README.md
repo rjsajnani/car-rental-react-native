@@ -1,12 +1,15 @@
 # Setup
+Update for new enhancements 
 
 Run,
-
+    // add new packages
     $ npm install
     
 Go to ios directory and run,
 
-    $ cd ios && pod install && cd ..
+    $ cd ios 
+    //delete pod folder and pod.lock file
+    $ pod install && cd ..
 
 start react-native
 
