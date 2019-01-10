@@ -79,7 +79,8 @@ const watchCarsList = () => {
           image_url,
           availability,
           endTime,
-          current_time
+          current_time,
+          coordinate
         } = doc.data();
         carsList.push({
           key: doc.id,
@@ -91,7 +92,11 @@ const watchCarsList = () => {
           registrationNo: registration_no,
           availability,
           endTime,
-          current_time
+          current_time,
+          coordinate: {
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude,
+          }
         });
       })
       var actionGetCarsList = getCarsList(carsList);

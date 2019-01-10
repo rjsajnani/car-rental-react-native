@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import Moment from 'moment';
 import { 
    StyleSheet,
    ScrollView,
@@ -9,18 +9,12 @@ import {
    Text
   } from 'react-native';
 import { 
-  Button,
   Card, 
-  Title,
   Paragraph,
   Switch,
-  List
 } from 'react-native-paper';
-import {watchReservationList} from '../../../actions'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Moment from 'moment';
 
-import firebase from '../../../../FirebaseConfig';
 import { Color } from '../../../Style/Color';
 import { StyleDefault } from '../../../Style/Styles';
 
@@ -63,6 +57,7 @@ class ReservationList extends Component {
       </View>  
     </Card>
   );
+
   //toggle switch
   updateToggle(val){
     this.props.toggle(val)
@@ -78,24 +73,40 @@ class ReservationList extends Component {
       )
     }
     return (
-      <ScrollView style={styles.container}>
-        <View style={{flexDirection: 'row',alignItems:'center',margin:10}}>
-          <Text style={styles.activeText}>
-            View Active Bookings 
-          </Text>
-          <Switch
-            value={activeList}
-            onValueChange={() =>
-              this.updateToggle(!activeList)
-              }
-            />
-        </View>
-        <FlatList
-          data={reservationList}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem.bind(this)}
-        />
-      </ScrollView>
+      <View style={styles.container}>  
+        <ScrollView style={styles.container}>
+          <View>          
+            {
+             reservationList.length >= 0 &&
+             <View style={{flexDirection: 'row',alignItems:'center',margin:10}}>
+              <Text style={styles.activeText}>
+                View Active Bookings 
+              </Text>
+              <Switch
+                value={activeList}
+                onValueChange={() =>
+                  this.updateToggle(!activeList)
+                }
+                />
+              </View>
+            }
+            {
+             reservationList.length >= 1 &&
+              <FlatList
+              data={reservationList}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem.bind(this)}
+              />
+            }
+          </View>
+        </ScrollView>
+        {
+          reservationList <= 0 &&
+          <View style={[styles.container,styles.centerAlign]}>  
+            <Text style={{fontSize:18}}>No Active Bookings yet.</Text>
+          </View>
+        }
+      </View>
     );
   }
 }
@@ -104,6 +115,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor:Color.white
+  },
+  centerAlign:{
+    alignSelf:'center',
+    justifyContent:'flex-start'
   },
   item: {
     padding: 10,

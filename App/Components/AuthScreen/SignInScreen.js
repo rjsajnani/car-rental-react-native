@@ -4,9 +4,10 @@ import {
   StyleSheet,
   View,  
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Button } from 'react-native-paper'
 import firebase from 'react-native-firebase'
-import { connect } from 'react-redux';
+
 import { saveUserToken } from '../../actions/index'
 
 
