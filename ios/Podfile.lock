@@ -25,7 +25,7 @@ PODS:
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
-    - GoogleUtilities/NSData+zlib (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - FirebaseAnalyticsInterop (1.1.0)
   - FirebaseAuthInterop (1.0.0)
@@ -35,14 +35,14 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.1)
     - FirebaseFirestore/abseil-cpp (= 0.16.1)
-    - gRPC-C++ (= 0.0.5)
+    - "gRPC-C++ (= 0.0.5)"
     - leveldb-library (~> 1.20)
     - nanopb (~> 0.3.8)
     - Protobuf (~> 3.1)
   - FirebaseFirestore/abseil-cpp (0.16.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.1)
-    - gRPC-C++ (= 0.0.5)
+    - "gRPC-C++ (= 0.0.5)"
     - leveldb-library (~> 1.20)
     - nanopb (~> 0.3.8)
     - Protobuf (~> 3.1)
@@ -66,7 +66,7 @@ PODS:
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
-    - GoogleUtilities/NSData+zlib (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - GoogleUtilities/AppDelegateSwizzler (5.3.6):
     - GoogleUtilities/Environment
@@ -79,21 +79,21 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/Network (5.3.6):
     - GoogleUtilities/Logger
-    - GoogleUtilities/NSData+zlib
+    - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - GoogleUtilities/NSData+zlib (5.3.6)
+  - "GoogleUtilities/NSData+zlib (5.3.6)"
   - GoogleUtilities/Reachability (5.3.6):
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.6):
     - GoogleUtilities/Logger
-  - gRPC-C++ (0.0.5):
-    - gRPC-C++/Implementation (= 0.0.5)
-    - gRPC-C++/Interface (= 0.0.5)
-  - gRPC-C++/Implementation (0.0.5):
-    - gRPC-C++/Interface (= 0.0.5)
+  - "gRPC-C++ (0.0.5)":
+    - "gRPC-C++/Implementation (= 0.0.5)"
+    - "gRPC-C++/Interface (= 0.0.5)"
+  - "gRPC-C++/Implementation (0.0.5)":
+    - "gRPC-C++/Interface (= 0.0.5)"
     - gRPC-Core (= 1.14.0)
     - nanopb (~> 0.3)
-  - gRPC-C++/Interface (0.0.5)
+  - "gRPC-C++/Interface (0.0.5)"
   - gRPC-Core (1.14.0):
     - gRPC-Core/Implementation (= 1.14.0)
     - gRPC-Core/Interface (= 1.14.0)
@@ -190,23 +190,43 @@ DEPENDENCIES:
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - boost-for-react-native
+    - BoringSSL
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
+    - FirebaseAuthInterop
+    - FirebaseCore
+    - FirebaseFirestore
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - GoogleAppMeasurement
+    - GoogleUtilities
+    - "gRPC-C++"
+    - gRPC-Core
+    - leveldb-library
+    - nanopb
+    - Protobuf
+
 EXTERNAL SOURCES:
   DoubleConversion:
-    :podspec: ../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   Folly:
-    :podspec: ../node_modules/react-native/third-party-podspecs/Folly.podspec
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
-    :podspec: ../node_modules/react-native/third-party-podspecs/glog.podspec
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
-    :path: ../node_modules/react-native
+    :path: "../node_modules/react-native"
   react-native-maps:
-    :path: ../node_modules/react-native-maps
+    :path: "../node_modules/react-native-maps"
   RNFirebase:
-    :path: ../node_modules/react-native-firebase/ios
+    :path: "../node_modules/react-native-firebase/ios"
   RNVectorIcons:
-    :path: ../node_modules/react-native-vector-icons
+    :path: "../node_modules/react-native-vector-icons"
   yoga:
-    :path: ../node_modules/react-native/ReactCommon/yoga/yoga.podspec
+    :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
@@ -224,7 +244,7 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
-  gRPC-C++: 19eec1ffd34de29453f5fab5b4697ad0f240ad51
+  "gRPC-C++": 19eec1ffd34de29453f5fab5b4697ad0f240ad51
   gRPC-Core: f4836515817c0eb479aeeb9cc27c91c4ba62a9f6
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -237,4 +257,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a6a16e6673721f9e45990b0a6bf94ea539eb69ca
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

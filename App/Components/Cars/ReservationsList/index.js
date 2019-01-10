@@ -22,6 +22,12 @@ class ReservationList extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount(){
+    debugger
+    if(this.props.reservationList.length === 0){
+      this.props.toggle(false);
+    }
+  }
   _renderItem = ({item}) => (
     <Card style={
       [StyleDefault.cardStyle,
