@@ -2,6 +2,7 @@
 Update for new enhancements 
 
 Run,
+
     // add new packages
     $ npm install
     
@@ -28,6 +29,8 @@ start react-native
 - Used Redux for storing the states
 
 Added Screenshots for reference 
+
+![Home Screen](img/home_screen.png "Home Screen")
 
 ![View Car Listing ](img/car_listing.png "Car Listing")
 
