@@ -18,7 +18,11 @@ start react-native
 
 # SocarProject
 
+- Added Maps support
 
+- Added Date Time picker
+
+- Added FCM token for reservations
 
 - Create Cars Tab
 
@@ -44,4 +48,3 @@ Added Screenshots for reference
 
 ![Active Reservation List View](img/active_reservation_list.png "Active Reservation List")
 
-**The reservations list is showing the wrong time for collection and returned due to the firestore timestamp, the server is synced to US.Sorry for that**
