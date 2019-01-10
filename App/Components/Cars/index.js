@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   View,
   Dimensions,
-  StyleSheet
 } from 'react-native';
 import { 
   TabView, 
@@ -106,11 +105,5 @@ class Cars extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  scene: {
-    flex: 1,
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cars);

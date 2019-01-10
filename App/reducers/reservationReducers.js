@@ -9,7 +9,7 @@ const initialState = {
 export default function reservationReducers (state= initialState, action) {
 	switch(action.type) {
     case REQUEST_RESERVATION_LIST: 
-      return { reservationList: action.value, activeList: action.active };
+      return {...state, reservationList: action.value, activeList: action.active };
     default: 
       return state;
   }

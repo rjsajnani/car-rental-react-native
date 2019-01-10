@@ -147,8 +147,9 @@ class CarDetailScreen extends Component {
             <TouchableOpacity  onPress={this.showStartDateTimePicker}>
               <List.Item
                 style={styles.listItem}
-                title={startDateTime === '' ? "Select Pickup Date" :"Pickup By: " +  Moment(startDateTime).format("DD-MM-YYYY HH:mm")}
-                left={() => <List.Icon icon="flag" color={'green'} />}
+                right={props => <List.Icon {...props} icon="arrow-drop-down" />}
+                title={startDateTime === '' ? "Select Pickup Date" :"Pickup By: "  +  Moment(startDateTime).format("DD-MM-YYYY HH:mm")}
+                left={() => <List.Icon icon="timer" color={'green'} />}
               />
             </TouchableOpacity>
             
@@ -165,8 +166,9 @@ class CarDetailScreen extends Component {
             <TouchableOpacity onPress={this.showEndDateTimePicker}>
               <List.Item
                 style={styles.listItem}
+                right={props => <List.Icon {...props} icon="arrow-drop-down" />}
                 title={endDateTime === '' ? "Select Return Date" : "Return By: " +  Moment(endDateTime).format("DD-MM-YYYY HH:mm")}
-                left={() => <List.Icon icon="flag" color={'red'} />}
+                left={() => <List.Icon icon="timer"  color={'red'} />}
               />
             </TouchableOpacity>
             

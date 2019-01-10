@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import {getUserToken} from '../../actions'
 
 const mapStateToProps = state => {
-  console.log(state)
   return{
     token: state.userTokenReducers.token,
   }
